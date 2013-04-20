@@ -3,3 +3,5 @@
 
 void time_to_words(int hours, int minutes, char* words, size_t length);
 void time_to_3words(int hours, int minutes, char *line1, char *line2, char *line3, size_t length);
+size_t number_to_words(int number, char* words, size_t length);
+size_t new_number_to_words(int number, char* words, size_t length);

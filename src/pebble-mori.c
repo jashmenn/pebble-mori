@@ -3,6 +3,9 @@
 #include "pebble_app.h"
 #include "pebble_fonts.h"
 #include "xprintf.h"
+#include "num2words-en.h"
+
+#define BUFFER_SIZE 256
 
 #define MY_UUID { 0x6D, 0x57, 0xBE, 0xFA, 0x8B, 0x81, 0x4B, 0xF4, 0x81, 0xE3, 0xAB, 0x14, 0x20, 0x70, 0xAB, 0xCD }
 PBL_APP_INFO(MY_UUID,
@@ -47,14 +50,22 @@ void handle_second_tick(AppContextRef ctx, PebbleTickEvent *t) {
   (void)t;
   (void)ctx;
 
-  //static char time_text[] = "00:00:00"; // Needs to be static because it's used by the system later.
 
+  //static char time_text[] = "00:00:00"; // Needs to be static because it's used by the system later.
   PblTm current_time;
   get_time(&current_time);
+  // string_format_time(time_text, sizeof(time_text), "%T", &current_time);
 
-  time_t minutes_left = get_time_left_t();
-  static char time_text[100];
-  xsprintf( time_text, "%d", minutes_left );
+
+  // reading minutes
+  // time_t minutes_left = get_time_left_t();
+  // static char time_text[100];
+  // xsprintf( time_text, "%d", minutes_left );
+  // text_layer_set_text(&text_test_layer, time_text);
+
+  // sample to words
+  static char time_text[BUFFER_SIZE];
+  new_number_to_words(84794857, time_text, BUFFER_SIZE);
 
   // string_format_time(time_text, sizeof(time_text), "%T", &current_time);
   text_layer_set_text(&text_test_layer, time_text);
@@ -86,7 +97,7 @@ void handle_init(AppContextRef ctx) {
   text_layer_set_text(&text_header_layer, header_text);
 
   // text test layer
-  text_layer_init(&text_test_layer, GRect(29, 54, 144-40 /* width */, 168-54 /* height */));
+  text_layer_init(&text_test_layer, GRect(10, 20, 144-10 /* width */, 168-20 /* height */));
   text_layer_set_text_color(&text_test_layer, GColorWhite);
   text_layer_set_background_color(&text_test_layer, GColorClear);
   text_layer_set_font(&text_test_layer, fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_OPENSANS_BOLD_16)));

@@ -1,5 +1,6 @@
 #include "num2words-en.h"
 #include "string.h"
+#include "math.h"
 
 static const char* const ONES[] = {
   "o'clock",
@@ -39,6 +40,39 @@ static const char* const TENS[] = {
   "eighty",
   "ninety"
 };
+
+static const char* const MAGNITUDE[] = {
+  "", //  0
+  "", // 10
+  "hundred", 
+  "thousand",
+  "million",
+  "billion"
+};
+
+static const char* const UNITS[] = {
+  "zero",
+  "one",
+  "two",
+  "three",
+  "four",
+  "five",
+  "six",
+  "seven",
+  "eight",
+  "nine",
+  "ten",
+  "eleven",
+  "twelve",
+  "thirteen",
+  "fourteen",
+  "fifteen",
+  "sixteen",
+  "seventeen",
+  "eightteen",
+  "nineteen"
+};
+
 
 static size_t append_number(char* words, int num) {
   int tens_val = num / 10 % 10;
@@ -97,6 +131,7 @@ void time_to_3words(int hours, int minutes, char *line1, char *line2, char *line
 	
 	memset(line1, 0, length);
 	memset(line2, 0, length);
+  
 	memset(line3, 0, length);
 	
 	char *start = value;
@@ -121,4 +156,52 @@ void time_to_3words(int hours, int minutes, char *line1, char *line2, char *line
 			pch[0] = 0;
 		}
 	}
+}
+
+size_t new_number_to_words(int number, char* words, size_t length) {
+  memset(words, 0, length);
+  return number_to_words(number, words, length);
+}
+// more or less from
+// http://stackoverflow.com/questions/2729752/converting-numbers-in-to-words-c-sharp
+size_t number_to_words(int number, char* words, size_t length) {
+
+  size_t remaining = length;
+  // memset(words, 0, length);
+
+  if (number == 0)
+    remaining -= append_string(words, remaining, "zero");
+  else
+    if ((number / 1000000) > 0) {
+      remaining = number_to_words(number / 1000000, words, remaining);
+      remaining -= append_string(words, remaining, " million ");
+      number %= 1000000;
+    }
+    if ((number / 1000) > 0) {
+      remaining = number_to_words(number / 1000, words, remaining);
+      remaining -= append_string(words, remaining, " thousand ");
+      number %= 1000;
+    }
+
+    if ((number / 100) > 0) {
+      remaining = number_to_words(number / 100, words, remaining);
+      remaining -= append_string(words, remaining, " hundred ");
+      number %= 100;
+    }
+
+    if (number > 0) {
+      // if (words != "")
+      //  words += "and ";
+   
+      if (number < 20)
+        remaining -= append_string(words, remaining, UNITS[number]);
+      else
+        {
+          remaining -= append_string(words, remaining, TENS[number / 10]);
+          if ((number % 10) > 0)
+            remaining -= append_string(words, remaining, "-");
+          remaining -= append_string(words, remaining, UNITS[number % 10]);
+        }
+    }
+    return remaining;
 }
