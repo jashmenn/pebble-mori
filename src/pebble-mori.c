@@ -1,6 +1,8 @@
+#include <stdio.h>
 #include "pebble_os.h"
 #include "pebble_app.h"
 #include "pebble_fonts.h"
+#include "xprintf.h"
 
 #define MY_UUID { 0x6D, 0x57, 0xBE, 0xFA, 0x8B, 0x81, 0x4B, 0xF4, 0x81, 0xE3, 0xAB, 0x14, 0x20, 0x70, 0xAB, 0xCD }
 PBL_APP_INFO(MY_UUID,
@@ -14,16 +16,31 @@ Window window;
 TextLayer text_header_layer;
 TextLayer text_test_layer;
 
-// Milliseconds since January 1st 2012 in some timezone, discounting leap years.
+// Minutes since January 1st 1970 in some timezone, more or less
+// We use minutes because I plan on living longer than 2038
 time_t get_pebble_time_t() {
     PblTm t;
     get_time(&t);
-    time_t seconds = t.tm_sec;
-    seconds += t.tm_min * 60;
-    seconds += t.tm_hour * 3600;
-    seconds += t.tm_yday * 86400;
-    seconds += (t.tm_year - 2012) * 31536000;
-    return seconds * 1000;
+    time_t minutes = t.tm_min;
+    minutes += t.tm_hour * 60;
+    minutes += t.tm_yday * 1440;
+    minutes += (t.tm_year - 1970) * 525600;
+    return minutes;
+}
+
+// Time in minutes since January 1st 1970 when you're going to die
+time_t get_death_time_t() {
+  // Configure when you're going to die right here
+  // Will make this a setting when Pebble exposes settings to watchfaces
+  time_t minutes = 14;
+  minutes += 14 * 60;
+  minutes += 44 * 1440;
+  minutes += (2065 - 1970) * 525600;
+  return minutes;
+}
+
+time_t get_time_left_t() {
+  return get_death_time_t() - get_pebble_time_t();
 }
 
 void handle_second_tick(AppContextRef ctx, PebbleTickEvent *t) {
@@ -35,7 +52,7 @@ void handle_second_tick(AppContextRef ctx, PebbleTickEvent *t) {
   PblTm current_time;
   get_time(&current_time);
 
-  int years_left = 
+  // time_t minutes_left = get_time_left_t();
 
   string_format_time(time_text, sizeof(time_text), "%T", &current_time);
   text_layer_set_text(&text_test_layer, time_text);
@@ -54,7 +71,10 @@ void handle_init(AppContextRef ctx) {
 
 
   // create our header
-  static char header_text[] = "I love you Ashley";
+  // static char header_text[] = "I love you Ashley";
+  static char header_text[100];
+  xsprintf( header_text, "sizeof time_t: %u", sizeof(time_t) );
+
   text_layer_init(&text_header_layer, window.layer.frame);
   text_layer_set_text_color(&text_header_layer, GColorWhite);
   text_layer_set_background_color(&text_header_layer, GColorClear);
