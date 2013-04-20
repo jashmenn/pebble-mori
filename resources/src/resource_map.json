@@ -7,6 +7,16 @@
 	    "defName":"IMAGE_MENU_ICON",
 	    "file":"images/menu_icon_mori.png"
 	   },
+	   {
+	    "type":"png",
+	    "defName":"IMAGE_SNOWFLAKE",
+	    "file":"images/snowflake.png"
+	   },
+	   {
+	    "type":"png",
+	    "defName":"IMAGE_BOSS",
+	    "file":"images/theboss.png"
+	   },
      {
       "type": "font",
       "defName": "FONT_OPENSANS_BOLD_16",

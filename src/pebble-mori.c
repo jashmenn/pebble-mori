@@ -80,9 +80,6 @@ void handle_init(AppContextRef ctx) {
 
   resource_init_current_app(&APP_RESOURCES);
 
-  // 
-
-
   // create our header
   // static char header_text[] = "I love you Ashley";
   static char header_text[100];
@@ -118,3 +115,5 @@ void pbl_main(void *params) {
   };
   app_event_loop(params, &handlers);
 }
+
+
