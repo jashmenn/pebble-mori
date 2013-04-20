@@ -16,7 +16,7 @@ Window window;
 TextLayer text_header_layer;
 TextLayer text_test_layer;
 
-// Minutes since January 1st 1970 in some timezone, more or less
+// Minutes since January 1st 1970 in some timezone, w/o rt leap years
 // We use minutes because I plan on living longer than 2038
 time_t get_pebble_time_t() {
     PblTm t;
@@ -24,7 +24,7 @@ time_t get_pebble_time_t() {
     time_t minutes = t.tm_min;
     minutes += t.tm_hour * 60;
     minutes += t.tm_yday * 1440;
-    minutes += (t.tm_year - 1970) * 525600;
+    minutes += ((t.tm_year + 1900) - 1970) * 525600; // t.tm_year is an integer from 1900
     return minutes;
 }
 
@@ -47,14 +47,16 @@ void handle_second_tick(AppContextRef ctx, PebbleTickEvent *t) {
   (void)t;
   (void)ctx;
 
-  static char time_text[] = "00:00:00"; // Needs to be static because it's used by the system later.
+  //static char time_text[] = "00:00:00"; // Needs to be static because it's used by the system later.
 
   PblTm current_time;
   get_time(&current_time);
 
-  // time_t minutes_left = get_time_left_t();
+  time_t minutes_left = get_time_left_t();
+  static char time_text[100];
+  xsprintf( time_text, "%d", minutes_left );
 
-  string_format_time(time_text, sizeof(time_text), "%T", &current_time);
+  // string_format_time(time_text, sizeof(time_text), "%T", &current_time);
   text_layer_set_text(&text_test_layer, time_text);
 }
 
