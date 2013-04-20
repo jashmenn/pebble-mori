@@ -14,6 +14,18 @@ Window window;
 TextLayer text_header_layer;
 TextLayer text_test_layer;
 
+// Milliseconds since January 1st 2012 in some timezone, discounting leap years.
+time_t get_pebble_time_t() {
+    PblTm t;
+    get_time(&t);
+    time_t seconds = t.tm_sec;
+    seconds += t.tm_min * 60;
+    seconds += t.tm_hour * 3600;
+    seconds += t.tm_yday * 86400;
+    seconds += (t.tm_year - 2012) * 31536000;
+    return seconds * 1000;
+}
+
 void handle_second_tick(AppContextRef ctx, PebbleTickEvent *t) {
   (void)t;
   (void)ctx;
