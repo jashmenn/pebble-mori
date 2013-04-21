@@ -1,5 +1,3 @@
-setup:
-
 configure:
 	./waf configure
 

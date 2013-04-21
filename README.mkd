@@ -5,7 +5,8 @@ Remember the day of your death ... with this new Pebble watch face!
 
 [![ScreenShot](http://i.imgur.com/gXkylBp.gif)](http://i.imgur.com/gXkylBp.gif)
 
-##[Download v1.0](https://www.dropbox.com)
+##[Download
+  v1.0](https://dl.dropboxusercontent.com/u/1747214/keep/pebble/pebble-mori-1.0.pbw)
 
 > Life is short, and shortly it will end;
 
@@ -20,7 +21,7 @@ Remember the day of your death ... with this new Pebble watch face!
 ## Features
 
 * Minute-by-minute count down until the day you meet your maker
-* As you near death, mori will share helpful tips to help you deal with your impending death
+* As you near the end of your life, mori will share helpful tips to help you deal with your impending death
 * Included menu icon
 
 ## Build Instructions
