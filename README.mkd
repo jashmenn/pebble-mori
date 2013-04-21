@@ -1,0 +1,70 @@
+# Memento Mori
+_by Nate Murray_
+
+Remember the day of your death ... with this new Pebble watch face! 
+
+[![ScreenShot](http://i.imgur.com/gXkylBp.gif)](http://i.imgur.com/gXkylBp.gif)
+
+##[Download v1.0](https://www.dropbox.com)
+
+> Life is short, and shortly it will end;
+
+> Death comes quickly and respects no one,
+
+> Death destroys everything and takes pity on no one.
+
+> To death we are hastening, let us refrain from sinning.
+
+> Catalan Llibre Vermell de Montserrat (1399)
+
+## Features
+
+* Minute-by-minute count down until the day you meet your maker
+* As you near death, mori will share helpful tips to help you deal with your impending death
+* Included menu icon
+
+## Build Instructions
+
+Clone this repository in an appropriate directory:
+
+	git clone https://github.com/jashmenn/pebble-mori.git
+
+Set up waf:
+
+	python ~/pebble-dev/pebble-sdk-release-001/tools/create_pebble_project.py --symlink-only ~/pebble-dev/pebble-sdk-release-001/sdk/ pebble-mori
+	cd pebble-mori
+
+Configure and build:
+
+	./waf configure
+	./waf build
+
+Install pebble-mori.pbw in build directory
+
+## License
+
+The MIT License (MIT)
+Copyright (c) 2013 Nate Murray <nate@natemurray.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+## Contributions
+
+* [OpenSans](http://opensans.com/)
+
