@@ -100,7 +100,7 @@ static size_t append_number(char* words, int num) {
   return len;
 }
 
-static size_t append_string(char* buffer, const size_t length, const char* str) {
+size_t append_string(char* buffer, const size_t length, const char* str) {
   strncat(buffer, str, length);
 
   size_t written = strlen(str);

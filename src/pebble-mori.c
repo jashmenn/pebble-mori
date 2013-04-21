@@ -4,6 +4,7 @@
 #include "pebble_fonts.h"
 #include "xprintf.h"
 #include "num2words-en.h"
+#include "rand.h"
 
 #define BUFFER_SIZE 256
 
@@ -46,16 +47,18 @@ time_t get_time_left_t() {
   return get_death_time_t() - get_pebble_time_t();
 }
 
-void handle_second_tick(AppContextRef ctx, PebbleTickEvent *t) {
+void handle_tick(AppContextRef ctx, PebbleTickEvent *t) {
   (void)t;
   (void)ctx;
-
 
   //static char time_text[] = "00:00:00"; // Needs to be static because it's used by the system later.
   PblTm current_time;
   get_time(&current_time);
   // string_format_time(time_text, sizeof(time_text), "%T", &current_time);
 
+  // static char test_text[100];
+  // xsprintf( test_text, "%u", myrand() );
+  // text_layer_set_text(&text_header_layer, test_text);
 
   // reading minutes
   // time_t minutes_left = get_time_left_t();
@@ -65,7 +68,8 @@ void handle_second_tick(AppContextRef ctx, PebbleTickEvent *t) {
 
   // sample to words
   static char time_text[BUFFER_SIZE];
-  new_number_to_words(84794857, time_text, BUFFER_SIZE);
+  new_number_to_words(get_time_left_t(), time_text, BUFFER_SIZE);
+  append_string(time_text, BUFFER_SIZE, " minutes to live");
 
   // string_format_time(time_text, sizeof(time_text), "%T", &current_time);
   text_layer_set_text(&text_test_layer, time_text);
@@ -81,9 +85,9 @@ void handle_init(AppContextRef ctx) {
   resource_init_current_app(&APP_RESOURCES);
 
   // create our header
-  // static char header_text[] = "I love you Ashley";
-  static char header_text[100];
-  xsprintf( header_text, "sizeof time_t: %u", sizeof(time_t) );
+  static char header_text[] = "You have:";
+  // static char header_text[100];
+  //xsprintf( header_text, "sizeof time_t: %u", sizeof(time_t) );
 
   text_layer_init(&text_header_layer, window.layer.frame);
   text_layer_set_text_color(&text_header_layer, GColorWhite);
@@ -98,7 +102,7 @@ void handle_init(AppContextRef ctx) {
   text_layer_set_text_color(&text_test_layer, GColorWhite);
   text_layer_set_background_color(&text_test_layer, GColorClear);
   text_layer_set_font(&text_test_layer, fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_OPENSANS_BOLD_16)));
-  handle_second_tick(ctx, NULL); // update immediately
+  handle_tick(ctx, NULL); // update immediately
   layer_add_child(&window.layer, &text_test_layer.layer);
 }
 
@@ -108,8 +112,8 @@ void pbl_main(void *params) {
 
     // Handle time updates
     .tick_info = {
-      .tick_handler = &handle_second_tick,
-      .tick_units = SECOND_UNIT
+      .tick_handler = &handle_tick,
+      .tick_units = MINUTE_UNIT
     }
 
   };
