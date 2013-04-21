@@ -16,7 +16,7 @@ static const char* const TENS[] = {
 };
 
 static const char* const UNITS[] = {
-  "zero",
+  "",
   "one",
   "two",
   "three",
@@ -52,7 +52,7 @@ size_t number_to_words_r(int number, char* words, size_t length) {
   size_t remaining = length;
 
   if (number == 0)
-    remaining -= append_string(words, remaining, "zero");
+    remaining -= append_string(words, remaining, "");
   else
     if ((number / 1000000) > 0) {
       remaining = number_to_words_r(number / 1000000, words, remaining);

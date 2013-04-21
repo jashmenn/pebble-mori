@@ -13,7 +13,7 @@ PBL_APP_INFO(MY_UUID,
              RESOURCE_ID_IMAGE_MENU_ICON,
              APP_INFO_WATCH_FACE);
 
-#define BUFFER_SIZE 256
+#define BUFFER_SIZE 128
 #define MINUTES_PER_HOUR 60
 #define MINUTES_PER_DAY 1440
 #define MINUTES_PER_YEAR 525600
@@ -24,7 +24,7 @@ PBL_APP_INFO(MY_UUID,
 Window window;
 
 TextLayer text_header_layer;
-TextLayer text_test_layer;
+TextLayer text_time_layer;
 
 Layer layer;
 BmpContainer boss;
@@ -84,14 +84,27 @@ void handle_tick(AppContextRef ctx, PebbleTickEvent *t) {
     // set time left to words
     number_to_words(get_time_left_t(), time_text, BUFFER_SIZE);
     append_string(time_text, BUFFER_SIZE, " minutes to live");
-    text_layer_set_text(&text_test_layer, time_text);
+    text_layer_set_text(&text_time_layer, time_text);
 
+    if(time_left < SIX_MONTHS_OF_MINUTES) {
+      if(time_left > ONE_MONTH_OF_MINUTES) {
+        text_layer_set_text(&text_header_layer, "Forgive those who you have wronged");
+      } else if(time_left > ONE_WEEK_OF_MINUTES) {
+        text_layer_set_text(&text_header_layer, "Forgive those who have wronged you");
+      } else if(time_left > MINUTES_PER_DAY) {
+        text_layer_set_text(&text_header_layer, "Say goodbye to your loved ones");
+      } else if(time_left > MINUTES_PER_HOUR) {
+        text_layer_set_text(&text_header_layer, "Say your prayers");
+      } else {
+        text_layer_set_text(&text_header_layer, "Goodbye");
+      }
+    }
     
 
   } else {
     // better luck next time
     text_layer_set_text(&text_header_layer, "");
-    text_layer_set_text(&text_test_layer, "");
+    text_layer_set_text(&text_time_layer, "");
     show_boss = 1;
   }
 }
@@ -123,11 +136,11 @@ void handle_init(AppContextRef ctx) {
   text_layer_set_text(&text_header_layer, header_text);
 
   // text test layer
-  text_layer_init(&text_test_layer, GRect(10, 20, 144-10 /* width */, 168-20 /* height */));
-  text_layer_set_text_color(&text_test_layer, GColorWhite);
-  text_layer_set_background_color(&text_test_layer, GColorClear);
-  text_layer_set_font(&text_test_layer, fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_OPENSANS_BOLD_16)));
-  layer_add_child(&window.layer, &text_test_layer.layer);
+  text_layer_init(&text_time_layer, GRect(10, 30, 144-10 /* width */, 168-20 /* height */));
+  text_layer_set_text_color(&text_time_layer, GColorWhite);
+  text_layer_set_background_color(&text_time_layer, GColorClear);
+  text_layer_set_font(&text_time_layer, fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_OPENSANS_BOLD_16)));
+  layer_add_child(&window.layer, &text_time_layer.layer);
 
 
   handle_tick(ctx, NULL); // update immediately
