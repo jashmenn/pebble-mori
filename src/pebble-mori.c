@@ -51,27 +51,13 @@ void handle_tick(AppContextRef ctx, PebbleTickEvent *t) {
   (void)t;
   (void)ctx;
 
-  //static char time_text[] = "00:00:00"; // Needs to be static because it's used by the system later.
   PblTm current_time;
   get_time(&current_time);
-  // string_format_time(time_text, sizeof(time_text), "%T", &current_time);
 
-  // static char test_text[100];
-  // xsprintf( test_text, "%u", myrand() );
-  // text_layer_set_text(&text_header_layer, test_text);
-
-  // reading minutes
-  // time_t minutes_left = get_time_left_t();
-  // static char time_text[100];
-  // xsprintf( time_text, "%d", minutes_left );
-  // text_layer_set_text(&text_test_layer, time_text);
-
-  // sample to words
+  // set time left to words
   static char time_text[BUFFER_SIZE];
-  new_number_to_words(get_time_left_t(), time_text, BUFFER_SIZE);
+  number_to_words(get_time_left_t(), time_text, BUFFER_SIZE);
   append_string(time_text, BUFFER_SIZE, " minutes to live");
-
-  // string_format_time(time_text, sizeof(time_text), "%T", &current_time);
   text_layer_set_text(&text_test_layer, time_text);
 }
 
@@ -86,8 +72,6 @@ void handle_init(AppContextRef ctx) {
 
   // create our header
   static char header_text[] = "You have:";
-  // static char header_text[100];
-  //xsprintf( header_text, "sizeof time_t: %u", sizeof(time_t) );
 
   text_layer_init(&text_header_layer, window.layer.frame);
   text_layer_set_text_color(&text_header_layer, GColorWhite);
