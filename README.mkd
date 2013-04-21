@@ -5,8 +5,7 @@ Remember the day of your death ... with this new Pebble watch face!
 
 [![ScreenShot](http://i.imgur.com/gXkylBp.gif)](http://i.imgur.com/gXkylBp.gif)
 
-##[Download
-  v1.0](https://dl.dropboxusercontent.com/u/1747214/keep/pebble/pebble-mori-1.0.pbw)
+##[Download v1.0](https://dl.dropboxusercontent.com/u/1747214/keep/pebble/pebble-mori-1.0.pbw)
 
 > Life is short, and shortly it will end;
 
