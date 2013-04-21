@@ -19,11 +19,13 @@
 	   },
      {
       "type": "font",
+      "characterRegex": "[:a-z. -]",
       "defName": "FONT_OPENSANS_BOLD_16",
       "file": "fonts/OpenSans-Bold.ttf"
      },
      {
       "type": "font",
+      "characterRegex": "[:A-Za-z. -]",
       "defName": "FONT_OPENSANS_ITALIC_14",
       "file": "fonts/OpenSans-Italic.ttf"
      }
